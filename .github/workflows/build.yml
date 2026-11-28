@@ -14,8 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Unpack project
-        run: tar xJf project.txz
+      - name: Unpack project and patches
+        run: |
+          tar xJf project.txz
+          for p in $(ls patch*.txz 2>/dev/null | sort -V); do echo "Applying $p"; tar xJf "$p"; done
 
       - uses: actions/setup-java@v4
         with:
